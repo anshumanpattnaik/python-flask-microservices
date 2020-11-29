@@ -1,0 +1,729 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "Python Flask Microservices",
+        "description": "This is the sample demonstration of python flask microservices which follows Netflix api architecture.",
+        "contact": {
+            "name": "Anshuman Pattnaik",
+            "url": "https://hackbotone.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:5000/api/v1"
+        }
+    ],
+    "tags": [
+        {
+            "name": "User",
+            "description": "Create your profile"
+        },
+        {
+            "name": "Movies",
+            "description": "Access to your movies"
+        },
+        {
+            "name": "Trending Now",
+            "description": "Popular Movies based on trending"
+        }
+    ],
+    "paths": {
+        "/sign_up": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create a user account and get access to the millions of movies database",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User Created Successfully"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    }
+                }
+            }
+        },
+        "/sign_in": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Authenticate yourself by using your username and password",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/UserLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/UserLoggedIn"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Incorrect Username or Password"
+                    }
+                }
+            }
+        },
+        "/profile/{username}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Find your profile by username",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User Found"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+            }
+        },
+        "/update_profile/{username}": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Update your profile by your username",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Profile"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User profile updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    }
+                }
+            }
+        },
+        "/change_password/{username}": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Change your password by your username",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/ChangePassword"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password changed successfully"
+                    },
+                    "400": {
+                        "description": "Missing Fields"
+                    }
+                }
+            }
+        },
+        "/delete_account/{username}": {
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Delete your account by using your username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account Deleted Successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized Access"
+                    }
+                }
+            }
+        },
+        "/add_movie/{username}": {
+            "post": {
+                "tags": [
+                    "Movies"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Add new movie to the database",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Movie"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Movies Added Successfully"
+                    },
+                    "400": {
+                        "description": "Invalid Request"
+                    }
+                }
+            }
+        },
+        "/fetch_movies/{username}": {
+            "get": {
+                "tags": [
+                    "Movies"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Fetch all movies",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Movie"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movies not found"
+                    }
+                }
+            }
+        },
+        "/search_movie/{title}/{username}": {
+            "get": {
+                "tags": [
+                    "Movies"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Search movie",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "title of movie to return",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Movie"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found"
+                    }
+                }
+            }
+        },
+        "/delete_movie/{title}/{username}": {
+            "delete": {
+                "tags": [
+                    "Movies"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Delete movie",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "title of movie to return",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie Deleted Successfully"
+                    },
+                    "404": {
+                        "description": "Movie not found"
+                    }
+                }
+            }
+        },
+        "/favourite_movies/{username}": {
+            "get": {
+                "tags": [
+                    "Movies"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Favourite movies",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Movie"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movies not found"
+                    }
+                }
+            }
+        },
+        "/add_to_favourite/{title}/{username}": {
+            "put": {
+                "tags": [
+                    "Movies"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Add movie to your favourite",
+                "produces": [
+                    "application/json"
+                ],
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Favourite"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "title of movie to return",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie has been added to your favourite"
+                    },
+                    "404": {
+                        "description": "Movie not found"
+                    }
+                }
+            }
+        },
+        "/trending_now/{username}": {
+            "get": {
+                "tags": [
+                    "Trending Now"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Trending Now Movies",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "Username of the current logged in user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Movie"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movies not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserLogin": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserLoggedIn": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                }
+            }
+        },
+        "ChangePassword": {
+            "type": "object",
+            "properties": {
+                "old_password": {
+                    "type": "string"
+                },
+                "new_password": {
+                    "type": "string"
+                }
+            }
+        },
+        "Profile": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                }
+            }
+        },
+        "Favourite": {
+            "type": "object",
+            "properties": {
+                "is_favourite": {
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        },
+        "Thumbnails": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "client": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            }
+        },
+        "Media": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "client": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            }
+        },
+        "Subtitles": {
+            "type": "object",
+            "properties": {
+                "language": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            }
+        },
+        "Movie": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "movie_type": {
+                    "type": "string"
+                },
+                "ratings": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "age_restriction": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "thumbnails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Thumbnails"
+                    }
+                },
+                "media": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Media"
+                    }
+                },
+                "subtitles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Subtitles"
+                    }
+                },
+                "cast": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "genres": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "category": {
+                    "type": "string"
+                },
+                "production": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "is_favourite": {
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        }
+    }
+}
