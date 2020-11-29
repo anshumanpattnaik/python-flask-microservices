@@ -19,7 +19,7 @@ cd python-flask-microservices
 pip install requirements.txt
 python3 run.py
 
-Open [http://127.0.0.1:5000](http://127.0.0.1:5000) to view in the browser.
+Open http://127.0.0.1:5000 to view in the browser.
 ```````````````````````````````````````````````````````````````````````````````````
 
 ### Build Docker image
