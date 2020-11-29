@@ -4,7 +4,7 @@ The idea behind this application is to demonstrate the microservices architectur
 <img src="screenshots/Netflix_Microservices.png"/>
 
 ## Technical Overview
-The Proof of Concept written using python and it uses a flask web framework to define the routes, and to store the data in the server it uses mongodb database.
+The Proof of Concept written using python and it uses a flask web framework to define the routes, and to store the data in the server it uses mongodb database and for authentication it uses [JWT Token](https://jwt.io/) framework.
 
 In this project, you will find there are three different types of microservices.
 
