@@ -1,6 +1,8 @@
 # Python Flask Microservices
 The idea behind this application is to demonstrate microservices architecture of today's modern system. In this demo i have tried to show the basic microservices REST-API concepts of a tech & entertainment industry (i.e Netflix), and if we look at the system design of Netflix, it runs around more than 10,000+ microservices to manage the entire system, so in system-design it's quite important to understand this concept.
 
+<img src="screenshots/Netflix_Microservices.png"/>
+
 # Technical Overview
 The Proof of Concept written using python and it uses flask web framework to define the routes, and to store the data in the server it uses mongodb database.
 
