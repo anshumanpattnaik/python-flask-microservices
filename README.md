@@ -1,16 +1,19 @@
 ## Python Flask Microservices
-The idea behind this application is to demonstrate microservices architecture of today's modern system. In this demo i have tried to show the basic microservices REST-API concepts of a tech & entertainment industry (i.e Netflix), and if we look at the system design of Netflix, it runs around more than 10,000+ microservices to manage the entire system, so in system-design it's quite important to understand this concept.
+The idea behind this application is to demonstrate the microservices architecture of today's modern system. In this demo, I have tried to show the basic microservices REST-API concepts of a tech & entertainment industry (i.e Netflix), and if we look at the system design of Netflix, it runs around more than 10,000+ microservices to manage the entire system, so in system-design, it's quite important to understand this concept.
 
 <img src="screenshots/Netflix_Microservices.png"/>
 
 ## Technical Overview
-The Proof of Concept written using python and it uses flask web framework to define the routes, and to store the data in the server it uses mongodb database.
+The Proof of Concept written using python and it uses a flask web framework to define the routes, and to store the data in the server it uses mongodb database.
 
-In this project you will find there are three different types of microservices.
+In this project, you will find there are three different types of microservices.
 
 1. Users
 2. Movies
 3. Trending Now
+
+### Swagger API Documentation
+The Swagger API docs can be accessible via [http://127.0.0.1:5000/api/docs](http://127.0.0.1:5000/api/docs) and to test the API endpoints you need to authorize yourself using your jwt access token.
 
 <img src="screenshots/swagger.png"/>
 
@@ -24,7 +27,7 @@ python3 run.py
 Open http://127.0.0.1:5000 to view in the browser.
 ```````````````````````````````````````````````````````````````````````````````````
 
-### Build Docker image
+### Build and run docker image
 
 ```````````````````````````````````````````````````````
 docker build -t python-flask-microservices .
