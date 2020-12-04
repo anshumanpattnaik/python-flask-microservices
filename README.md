@@ -21,7 +21,8 @@ The Swagger API docs can be accessible via [http://127.0.0.1:5000/api/docs](http
 ``````````````````````````````````````````````````````````````````````````````````
 git clone https://github.com/anshumanpattnaik/python-flask-microservices
 cd python-flask-microservices
-pip install requirements.txt
+pip install -r requirements.txt
+source venv/bin/activate
 python3 run.py
 
 Open http://127.0.0.1:5000 to view in the browser.
